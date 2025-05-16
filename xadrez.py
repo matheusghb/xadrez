@@ -1,3 +1,18 @@
+def chgpc (posp, pos, ch):
+      t = ch[pos*3:(pos*3)+3]
+      if (ch[pos*3:(pos*3)+3]=='   '):
+            ch.replace(t, ch[posp*3:(posp*3)+3])
+            ch.replace(ch[posp*3:(posp*3)+3], t)
+      else:
+            pass
+
+
+def jgdcor(c):
+      if c==1:
+            return "branco"
+      else:
+            return 'preto'
+
 def mtab(aa, ab, ac, ad, ae, af, ag, ah, 
          ba, bb, bc, bd, be, bf, bg, bh, 
          ca, cb, cc, cd, ce, cf, cg, ch,
@@ -31,52 +46,97 @@ def checkp(a, b, chk):
       if (b == 'preto' and c == 'b') or (b == 'branco' and c == 'p'):
             return False
       else:
-            return (((chk.find(a))/3)+1)
+            return (((chk.find(a))//3)+1)
 
-def movp (a, b, pos):
-      
+def movp (a, b, pos, c):
+
       #a = peça
       #b = posição desejada
       #pos = posição atual
+      #c = cor da peça
 
-      pc = a[1]
+      pc = a[0]
+      flg = 0
 
-      if pc == 'p':
-            if b == (pos+7) or b == (pos+9):
-                  print ('válido')
-            else:
-                  print ('inválido')
-      
-      if pc == 'b':
-            i = 1
-            flg = 0
-            while flg<1:
-                  if b == (pos+(7*i)) or b == (pos+(9*i)):
-                        pass
-                  else:
+      if pc == 'p': #peão
+            if c == 1:
+                  if b not in (pos-8):
                         flg = 1
-            if flg == 0:
-                  print ('válido.')
+
             else:
-                  print ('inválido.')
+                  if b not in (pos+8):
+                       flg = 1
+
       
-      if pc == 't':
-            m = pos//8
-            if (b!=pos) and (b>((8*m))):
-                  pass
+      elif pc == 'b': #bispo
+            i = 1
+            while i<9:
+                  if b != (pos+(7*i)) and b != (pos+(9*i)) and b != (pos+(-(9*i))) and b != (pos+(-(7*i))):
+                        flg = 1
+                  else:
+                        flg = 0
+                        break
+                  i = i+1
       
-      if pc == 'c':
-            if b == (pos-17 or pos-15 or pos-6 or pos+10 or pos+17 or pos+15 or pos+6 or pos-10):
-                  print('válido')
+      elif pc == 't': #torre
+            if (pos%8)!=0:
+                  l = ((pos//8)+1)
             else:
-                  print('inválido')
-      
-      if pc == 'r':
-            if b == (pos+8 or pos-8 or pos-1 or pos+1 or pos+9 or pos+7 or pos-7 or pos-9):
-                  print ('válido')
+                  l = (pos//8)
+            if (b>(l*8)-7) and (b<(l*8)):
+                  i = 0-l
+                  while i<9:
+                        if (b!=(pos+(8*i))):
+                              flg = 1
+                        else:
+                              flg = 0
+                              break
+                        i = i+1
             else:
-                  print ('inválido')
+                  flg = 0
+
+      elif pc == 'c': #cavalo
+            if b in (pos-17, pos-15, pos-6, pos+10, pos+17, pos+15, pos+6, pos-10):
+                  flg = 0
+            else:
+                  flg = 1
       
+      elif pc == 'r': #rei
+            if b in (pos+8, pos-8, pos-1, pos+1, pos+9, pos+7, pos-7, pos-9):
+                  flg = 0
+            else:
+                  flg = 1
+      
+      else:
+            i = 1
+            while i<9:
+                  if b != (pos+(7*i)) and b != (pos+(9*i)) and b != (pos+(-(9*i))) and b != (pos+(-(7*i))):
+                        flg = 1
+                  else:
+                        flg = 0
+                        break
+                  i = i+1
+            if (pos%8)!=0:
+                  l = ((pos//8)+1)
+            else:
+                  l = (pos//8)
+            if (b>(l*8)-7) and (b<(l*8)):
+                  i = 0-l
+                  while i<9:
+                        if (b!=(pos+(8*i))):
+                              flg = 1
+                        else:
+                              flg = 0
+                              break
+                        i = i+1
+            else:
+                  flg = 0
+
+      if flg == 0:
+            return True
+      else:
+            return False
+
 ch = 't1pc1pb1pR1pr1pb2pc2pt2pp1pp2pp3pp4pp5pp6pp7pp8p                                                                                                p1bp2bp3bp4bp5bp6bp7bp8bt1bc1bb1bR1br1bb2bc2bt2b'
 
 a1=ch[0:3] 
@@ -144,8 +204,6 @@ h6=ch[183:186]
 h7=ch[186:189]
 h8=ch[189:192]
 
-ch = a1+a2+a3+a4+a5+a6+a7+a8+b1+b2+b3+b4+b5+b6+b7+b8+c1+c2+c3+c4+c5+c6+c7+c8+d1+d2+d3+d4+d5+d6+d7+d8+e1+e2+e3+e4+e5+e6+e7+e8+f1+f2+f3+f4+f5+f6+f7+f8+g1+g2+g3+g4+g5+g6+g7+g8+h1+h2+h3+h4+h5+h6+h7+h8
-
 print('Isso é uma simulação de xadrez feita dentro do console do Visual Studio Code.\n'
       'Grupo: Kaio Mariano, Pedro Igor, Matheus Guilherme e Yuri.\n' \
       '\n' \
@@ -164,37 +222,42 @@ print(ch)
 while (s==0):
 
       flg = 0
-      if (c==1):
-            cor = 'branco'
-      else:
-            cor = 'preto'
+      cor = jgdcor(c)
       print('\n\nTurno de %s.\n'%(cor))
-      print(mtab(a1,a2,a3,a4,a5,a6,a7,a8,
+      mtab(a1,a2,a3,a4,a5,a6,a7,a8,
             b1,b2,b3,b4,b5,b6,b7,b8,
             c1,c2,c3,c4,c5,c6,c7,c8,
             d1,d2,d3,d4,d5,d6,d7,d8,
             e1,e2,e3,e4,e5,e6,e7,e8,
             f1,f2,f3,f4,f5,f6,f7,f8,
             g1,g2,g3,g4,g5,g6,g7,g8,
-            h1,h2,h3,h4,h5,h6,h7,h8))
+            h1,h2,h3,h4,h5,h6,h7,h8)
       op = int(input('\nO que você deseja fazer?\n1 - Mover\n2 - Passar\n3 - Desistir\n4 - Sair\n=> '))
       s= 1
       if (op==1):
             pc = input('Digite o nome da peça que você deseja movimentar: ')
-            t = checkp(pc, cor, ch)
-            if (t<0 or t==False):
+            posp = checkp(pc, cor, ch)
+            if (posp<0 or posp==False):
                   flg = 1
                   print('\nCredênciais incorretas.')
             else:
-                  pos = int(input('Digite onde você deseja posicionar essa peça: '))
+                  pos = input('Digite onde você deseja posicionar essa peça (colunalinha): ')
+                  pos = (int(pos[0])+((int(pos[1])-1)*8))
+                  chk = movp(pc, pos, posp, c)
+                  if chk == True:
+                        chgpc(posp, pos, ch)
+                  else:
+                        print ('Posição incorreta.')
+                        c = abs(c-1)
       if (op==2):
             s=0
-      if (op==3):
-            s=0
-      if (op==4):
+      elif (op==3):
+            print('O time %s venceu.'%(jgdcor(abs(c-1))))
+            break
+      elif (op==4):
             print('\nFechando o programa.')
+            break
       if (flg>0):
-            pass
             s = 0
       else:
             c = abs(c-1)

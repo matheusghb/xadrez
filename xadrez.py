@@ -1,8 +1,11 @@
 def chgpc (posp, pos, ch):
-      t = ch[pos*3:(pos*3)+3]
-      if (ch[pos*3:(pos*3)+3]=='   '):
-            ch.replace(t, ch[posp*3:(posp*3)+3])
-            ch.replace(ch[posp*3:(posp*3)+3], t)
+      t = ch[(pos*3)-3:(pos*3)]
+      pp = ch[(posp*3)-3:(posp*3)]
+      print (t,pp)
+      if t==('   '):
+            ch = ch.replace(pp,t,1)
+           # ch = ch.replace(ch[(pos*3)-3:(pos*3)],pp,1)
+            return ch
       else:
             pass
 
@@ -60,11 +63,11 @@ def movp (a, b, pos, c):
 
       if pc == 'p': #peão
             if c == 1:
-                  if b not in (pos-8):
+                  if b != (pos-8):
                         flg = 1
 
             else:
-                  if b not in (pos+8):
+                  if b != (pos+8):
                        flg = 1
 
       
@@ -96,15 +99,11 @@ def movp (a, b, pos, c):
                   flg = 0
 
       elif pc == 'c': #cavalo
-            if b in (pos-17, pos-15, pos-6, pos+10, pos+17, pos+15, pos+6, pos-10):
-                  flg = 0
-            else:
+            if b !=pos-17 and b!=pos-15 and b!=pos-6 and b!=pos+10 and b!=pos+17 and b!=pos+15 and b!=pos+6 and b!=pos-10:
                   flg = 1
       
       elif pc == 'r': #rei
-            if b in (pos+8, pos-8, pos-1, pos+1, pos+9, pos+7, pos-7, pos-9):
-                  flg = 0
-            else:
+            if b!=(pos+8) and b!=pos-8 and b!=pos-1 and b!=pos+1 and b!=pos+9 and b!=pos+7 and b!=pos-7 and b!=pos-9:
                   flg = 1
       
       else:
@@ -139,70 +138,6 @@ def movp (a, b, pos, c):
 
 ch = 't1pc1pb1pR1pr1pb2pc2pt2pp1pp2pp3pp4pp5pp6pp7pp8p                                                                                                p1bp2bp3bp4bp5bp6bp7bp8bt1bc1bb1bR1br1bb2bc2bt2b'
 
-a1=ch[0:3] 
-a2=ch[3:6]
-a3=ch[6:9]
-a4=ch[9:12]
-a5=ch[12:15]
-a6=ch[15:18]
-a7=ch[18:21]
-a8=ch[21:24]
-b1=ch[24:27]
-b2=ch[27:30]
-b3=ch[30:33]
-b4=ch[33:36]
-b5=ch[36:39]
-b6=ch[39:42]
-b7=ch[42:45]
-b8=ch[45:48]
-c1=ch[48:51]
-c2=ch[51:54]
-c3=ch[54:57]
-c4=ch[57:60]
-c5=ch[60:63]
-c6=ch[63:66]
-c7=ch[66:69]
-c8=ch[69:72]
-d1=ch[72:75]
-d2=ch[75:78]
-d3=ch[78:81]
-d4=ch[81:84]
-d5=ch[84:87]
-d6=ch[87:90]
-d7=ch[90:93]
-d8=ch[93:96]
-e1=ch[96:99]
-e2=ch[99:102]
-e3=ch[102:105]
-e4=ch[105:108]
-e5=ch[108:111]
-e6=ch[111:114]
-e7=ch[114:117]
-e8=ch[117:120]
-f1=ch[120:123]
-f2=ch[123:126]
-f3=ch[126:129]
-f4=ch[129:132]
-f5=ch[132:135]
-f6=ch[135:138]
-f7=ch[138:141]
-f8=ch[141:144]
-g1=ch[144:147]
-g2=ch[147:150]
-g3=ch[150:153]
-g4=ch[153:156]
-g5=ch[156:159]
-g6=ch[159:162]
-g7=ch[162:165]
-g8=ch[165:168]
-h1=ch[168:171]
-h2=ch[171:174]
-h3=ch[174:177]
-h4=ch[177:180]
-h5=ch[180:183]
-h6=ch[183:186]
-h7=ch[186:189]
-h8=ch[189:192]
 
 print('Isso é uma simulação de xadrez feita dentro do console do Visual Studio Code.\n'
       'Grupo: Kaio Mariano, Pedro Igor, Matheus Guilherme e Yuri.\n' \
@@ -217,9 +152,72 @@ s=0
 c=1
 cor = ''
 
-print(ch)
-
 while (s==0):
+
+      a1=ch[0:3] 
+      a2=ch[3:6]
+      a3=ch[6:9]
+      a4=ch[9:12]
+      a5=ch[12:15]
+      a6=ch[15:18]
+      a7=ch[18:21]
+      a8=ch[21:24]
+      b1=ch[24:27]
+      b2=ch[27:30]
+      b3=ch[30:33]
+      b4=ch[33:36]
+      b5=ch[36:39]
+      b6=ch[39:42]
+      b7=ch[42:45]
+      b8=ch[45:48]
+      c1=ch[48:51]
+      c2=ch[51:54]
+      c3=ch[54:57]
+      c4=ch[57:60]
+      c5=ch[60:63]
+      c6=ch[63:66]
+      c7=ch[66:69]
+      c8=ch[69:72]
+      d1=ch[72:75]
+      d2=ch[75:78]
+      d3=ch[78:81]
+      d4=ch[81:84]
+      d5=ch[84:87]
+      d6=ch[87:90]
+      d7=ch[90:93]
+      d8=ch[93:96]
+      e1=ch[96:99]
+      e2=ch[99:102]
+      e3=ch[102:105]
+      e4=ch[105:108]
+      e5=ch[108:111]
+      e6=ch[111:114]
+      e7=ch[114:117]
+      e8=ch[117:120]
+      f1=ch[120:123]
+      f2=ch[123:126]
+      f3=ch[126:129]
+      f4=ch[129:132]
+      f5=ch[132:135]
+      f6=ch[135:138]
+      f7=ch[138:141]
+      f8=ch[141:144]
+      g1=ch[144:147]
+      g2=ch[147:150]
+      g3=ch[150:153]
+      g4=ch[153:156]
+      g5=ch[156:159]
+      g6=ch[159:162]
+      g7=ch[162:165]
+      g8=ch[165:168]
+      h1=ch[168:171]
+      h2=ch[171:174]
+      h3=ch[174:177]
+      h4=ch[177:180]
+      h5=ch[180:183]
+      h6=ch[183:186]
+      h7=ch[186:189]
+      h8=ch[189:192]
 
       flg = 0
       cor = jgdcor(c)
@@ -245,7 +243,7 @@ while (s==0):
                   pos = (int(pos[0])+((int(pos[1])-1)*8))
                   chk = movp(pc, pos, posp, c)
                   if chk == True:
-                        chgpc(posp, pos, ch)
+                        ch = chgpc(posp, pos, ch)
                   else:
                         print ('Posição incorreta.')
                         c = abs(c-1)

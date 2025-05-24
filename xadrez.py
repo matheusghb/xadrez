@@ -86,31 +86,27 @@ def movp (a, b, pos, c):
                         break
                   i = i+1
       
-      elif pc == 't':  # torre
-            if (pos % 8) != 0:
-                  l = (pos // 8) + 1
+      elif pc == 't': #torre
+            print(pos, b, 8%pos)
+            if (8%pos)!=0:
+                  l = ((pos//8)+1)
+                  print (l, 'se n for multiplo de 8')
             else:
-                  l = pos // 8
-
-      # Verifica se b está na mesma linha de pos
-            if (b > (l * 8) - 8) and (b <= (l * 8)):
-                  flg = 1  # Inicialmente assume movimento inválido
-                  for i in range((l - 1) * 8 + 1, l * 8 + 1):
-                        if b == i:
-                              flg = 0  # Movimento válido na linha
+                  l = (pos//8)
+                  print(l, 'se for multiplo de 8')
+            print (pos, flg, b, (l*8)-7,(l*8))
+            if (b>(l*8)-7) and (b<(l*8)):
+                  i = 0-l
+                  while i<9:
+                        print (b, pos+(8*i), flg, pos)
+                        if (b!=(pos+(8*i))):
+                              flg = 1
+                        else:
+                              flg = 0
                               break
-
-      # Verifica se b está na mesma coluna de pos
-            elif (pos - 1) % 8 == (b - 1) % 8:
-                  flg = 1  # Inicialmente assume movimento inválido
-                  for i in range(0, 8):
-                        if b == (i * 8 + ((pos - 1) % 8 + 1)):
-                              flg = 0  # Movimento válido na coluna
-                              break
-
-      else:
-            flg = 1  # Nem linha nem coluna
-
+                        i = i+1
+            else:
+                  flg = 0
 
       elif pc == 'c': #cavalo
             if b !=pos-17 and b!=pos-15 and b!=pos-6 and b!=pos+10 and b!=pos+17 and b!=pos+15 and b!=pos+6 and b!=pos-10:
@@ -120,7 +116,7 @@ def movp (a, b, pos, c):
             if b!=(pos+8) and b!=pos-8 and b!=pos-1 and b!=pos+1 and b!=pos+9 and b!=pos+7 and b!=pos-7 and b!=pos-9:
                   flg = 1
       
-      else:
+      else: #rainha
             i = 1
             while i<9:
                   if b != (pos+(7*i)) and b != (pos+(9*i)) and b != (pos+(-(9*i))) and b != (pos+(-(7*i))):
@@ -271,7 +267,7 @@ while (s==0):
       elif (op==4):
             print('\nFechando o programa.')
             break
-      else:
+      if (op>4) or (op<1):
             flg = 1
             print('\nCredênciais incorretas.')
       if (flg<1):

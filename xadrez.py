@@ -3,11 +3,16 @@ def chgpc (posp, pos, ch):
       pp = ch[(posp*3)-3:(posp*3)]
       print (t,pp)
       if t==('   '):
-            ch = ch.replace(pp,t,1)
-           # ch = ch.replace(ch[(pos*3)-3:(pos*3)],pp,1)
+            ch = ch[:(pos*3)-3]+pp+ch[(pos*3):]
+            ch = ch[:(posp*3)-3]+'   '+ch[posp*3:]
             return ch
       else:
-            pass
+            if pp[0:2]=='r1':
+                  wflg = 1
+                  return wflg
+            ch = ch[:(pos*3)-3]+pp+ch[(pos*3):]
+            ch = ch[:(posp*3)-3]+'   '+ch[posp*3:]
+            return ch
 
 
 def jgdcor(c):
@@ -81,22 +86,31 @@ def movp (a, b, pos, c):
                         break
                   i = i+1
       
-      elif pc == 't': #torre
-            if (pos%8)!=0:
-                  l = ((pos//8)+1)
+      elif pc == 't':  # torre
+            if (pos % 8) != 0:
+                  l = (pos // 8) + 1
             else:
-                  l = (pos//8)
-            if (b>(l*8)-7) and (b<(l*8)):
-                  i = 0-l
-                  while i<9:
-                        if (b!=(pos+(8*i))):
-                              flg = 1
-                        else:
-                              flg = 0
+                  l = pos // 8
+
+      # Verifica se b está na mesma linha de pos
+            if (b > (l * 8) - 8) and (b <= (l * 8)):
+                  flg = 1  # Inicialmente assume movimento inválido
+                  for i in range((l - 1) * 8 + 1, l * 8 + 1):
+                        if b == i:
+                              flg = 0  # Movimento válido na linha
                               break
-                        i = i+1
-            else:
-                  flg = 0
+
+      # Verifica se b está na mesma coluna de pos
+            elif (pos - 1) % 8 == (b - 1) % 8:
+                  flg = 1  # Inicialmente assume movimento inválido
+                  for i in range(0, 8):
+                        if b == (i * 8 + ((pos - 1) % 8 + 1)):
+                              flg = 0  # Movimento válido na coluna
+                              break
+
+      else:
+            flg = 1  # Nem linha nem coluna
+
 
       elif pc == 'c': #cavalo
             if b !=pos-17 and b!=pos-15 and b!=pos-6 and b!=pos+10 and b!=pos+17 and b!=pos+15 and b!=pos+6 and b!=pos-10:
@@ -151,6 +165,8 @@ print('Isso é uma simulação de xadrez feita dentro do console do Visual Studi
 s=0
 c=1
 cor = ''
+
+wflg = 0
 
 while (s==0):
 
@@ -249,14 +265,15 @@ while (s==0):
                         c = abs(c-1)
       if (op==2):
             s=0
-      elif (op==3):
+      elif (op==3) or wflg==1:
             print('O time %s venceu.'%(jgdcor(abs(c-1))))
             break
       elif (op==4):
             print('\nFechando o programa.')
             break
-      if (flg>0):
-            s = 0
       else:
+            flg = 1
+            print('\nCredênciais incorretas.')
+      if (flg<1):
             c = abs(c-1)
-            s = 0
+      s = 0

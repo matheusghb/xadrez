@@ -1,15 +1,11 @@
-def chgpc (posp, pos, ch):
+def chgpc (posp, pos, ch, wflg):
       t = ch[(pos*3)-3:(pos*3)]
       pp = ch[(posp*3)-3:(posp*3)]
-      print (t,pp)
       if t==('   '):
             ch = ch[:(pos*3)-3]+pp+ch[(pos*3):]
             ch = ch[:(posp*3)-3]+'   '+ch[posp*3:]
             return ch
       else:
-            if pp[0:2]=='r1':
-                  wflg = 1
-                  return wflg
             ch = ch[:(pos*3)-3]+pp+ch[(pos*3):]
             ch = ch[:(posp*3)-3]+'   '+ch[posp*3:]
             return ch
@@ -56,7 +52,7 @@ def checkp(a, b, chk):
       else:
             return (((chk.find(a))//3)+1)
 
-def movp (a, b, pos, c):
+def movp (a, b, pos):
 
       #a = peça
       #b = posição desejada
@@ -64,87 +60,86 @@ def movp (a, b, pos, c):
       #c = cor da peça
 
       pc = a[0]
-      flg = 0
+      flg = 0 
 
-      if pc == 'p': #peão
-            if c == 1:
-                  if b != (pos-8):
-                        flg = 1
-
-            else:
-                  if b != (pos+8):
-                       flg = 1
-
-      
-      elif pc == 'b': #bispo
-            i = 1
-            while i<9:
-                  if b != (pos+(7*i)) and b != (pos+(9*i)) and b != (pos+(-(9*i))) and b != (pos+(-(7*i))):
-                        flg = 1
-                  else:
-                        flg = 0
-                        break
-                  i = i+1
-      
-      elif pc == 't': #torre
-            print(pos, b, 8%pos)
-            if (8%pos)!=0:
-                  l = ((pos//8)+1)
-                  print (l, 'se n for multiplo de 8')
-            else:
-                  l = (pos//8)
-                  print(l, 'se for multiplo de 8')
-            print (pos, flg, b, (l*8)-7,(l*8))
-            if (b>(l*8)-7) and (b<(l*8)):
-                  i = 0-l
-                  while i<9:
-                        print (b, pos+(8*i), flg, pos)
-                        if (b!=(pos+(8*i))):
-                              flg = 1
-                        else:
-                              flg = 0
-                              break
-                        i = i+1
-            else:
-                  flg = 0
-
-      elif pc == 'c': #cavalo
-            if b !=pos-17 and b!=pos-15 and b!=pos-6 and b!=pos+10 and b!=pos+17 and b!=pos+15 and b!=pos+6 and b!=pos-10:
-                  flg = 1
-      
-      elif pc == 'r': #rei
-            if b!=(pos+8) and b!=pos-8 and b!=pos-1 and b!=pos+1 and b!=pos+9 and b!=pos+7 and b!=pos-7 and b!=pos-9:
-                  flg = 1
-      
-      else: #rainha
-            i = 1
-            while i<9:
-                  if b != (pos+(7*i)) and b != (pos+(9*i)) and b != (pos+(-(9*i))) and b != (pos+(-(7*i))):
-                        flg = 1
-                  else:
-                        flg = 0
-                        break
-                  i = i+1
-            if (pos%8)!=0:
-                  l = ((pos//8)+1)
-            else:
-                  l = (pos//8)
-            if (b>(l*8)-7) and (b<(l*8)):
-                  i = 0-l
-                  while i<9:
-                        if (b!=(pos+(8*i))):
-                              flg = 1
-                        else:
-                              flg = 0
-                              break
-                        i = i+1
-            else:
-                  flg = 0
-
-      if flg == 0:
-            return True
+      if a[2]==ch[(b*3)-1:(b*3)]:
+            print('É uma peça de mesma cor.')
+            flg=1
       else:
-            return False
+            if pc == 'p': #peão
+                  if a[2] == 'b':
+                        if b != (pos-8):
+                              flg = 1
+
+                  else:
+                        if b != (pos+8):
+                              flg = 1
+
+            
+            elif pc == 'b': #bispo
+                  i = 1
+                  while i<9:
+                        if b != (pos+(7*i)) and b != (pos+(9*i)) and b != (pos+(-(9*i))) and b != (pos+(-(7*i))):
+                              flg = 1
+                        else:
+                              flg = 0
+                              break
+                        i = i+1
+            
+            elif pc == 't': #torre
+                  if (8%pos)!=0:
+                        l = ((pos//8)+1)
+                  else:
+                        l = (pos//8)
+                  if (b<(l*8)-7) or (b>(l*8)):
+                        i = 0-l
+                        while i<9:
+                              if (b!=(pos+(8*i))):
+                                    flg = 1
+                              else:
+                                    flg = 0
+                                    break
+                              i = i+1
+                  else:
+                        flg = 0
+
+            elif pc == 'c': #cavalo
+                  if b !=pos-17 and b!=pos-15 and b!=pos-6 and b!=pos+10 and b!=pos+17 and b!=pos+15 and b!=pos+6 and b!=pos-10:
+                        flg = 1
+            
+            elif pc == 'r': #rei
+                  if b!=(pos+8) and b!=pos-8 and b!=pos-1 and b!=pos+1 and b!=pos+9 and b!=pos+7 and b!=pos-7 and b!=pos-9:
+                        flg = 1
+            
+            else: #rainha
+                  i = 1
+                  while i<9:
+                        if b != (pos+(7*i)) and b != (pos+(9*i)) and b != (pos+(-(9*i))) and b != (pos+(-(7*i))):
+                              flg = 1
+                        else:
+                              flg = 0
+                              break
+                        i = i+1
+                  if (8%pos)!=0:
+                        l = ((pos//8)+1)
+                  else:
+                        l = (pos//8)
+                  if (b<(l*8)-7) or (b>(l*8)):
+                        i = 0-l
+                        while i<9:
+                              if (b!=(pos+(8*i))):
+                                    flg = 1
+                              else:
+                                    flg = 0
+                                    break
+                              i = i+1
+                  else:
+                        flg = 0
+
+            if flg == 0:
+                  return True
+            else:
+                  return False
 
 ch = 't1pc1pb1pR1pr1pb2pc2pt2pp1pp2pp3pp4pp5pp6pp7pp8p                                                                                                p1bp2bp3bp4bp5bp6bp7bp8bt1bc1bb1bR1br1bb2bc2bt2b'
 
@@ -163,9 +158,11 @@ c=1
 cor = ''
 
 wflg = 0
-
 while (s==0):
-
+      if wflg == 1:
+            print('O time %s venceu.'%(jgdcor(abs(c))))
+            break
+      print (wflg)
       a1=ch[0:3] 
       a2=ch[3:6]
       a3=ch[6:9]
@@ -253,15 +250,17 @@ while (s==0):
             else:
                   pos = input('Digite onde você deseja posicionar essa peça (colunalinha): ')
                   pos = (int(pos[0])+((int(pos[1])-1)*8))
-                  chk = movp(pc, pos, posp, c)
+                  chk = movp(pc, pos, posp)
                   if chk == True:
-                        ch = chgpc(posp, pos, ch)
+                        ch = chgpc(posp, pos, ch, wflg)
+                        if ch.find('r1b')==-1 or ch.find('r1p')==-1:
+                              wflg = 1
                   else:
                         print ('Posição incorreta.')
                         c = abs(c-1)
       if (op==2):
             s=0
-      elif (op==3) or wflg==1:
+      elif (op==3):
             print('O time %s venceu.'%(jgdcor(abs(c-1))))
             break
       elif (op==4):

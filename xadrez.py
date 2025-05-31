@@ -78,13 +78,51 @@ def movp (a, b, pos):
             
             elif pc == 'b': #bispo
                   i = 1
-                  while i<9:
+                  while i<8:
+                        i = i+1
                         if b != (pos+(7*i)) and b != (pos+(9*i)) and b != (pos+(-(9*i))) and b != (pos+(-(7*i))):
                               flg = 1
+                              
                         else:
                               flg = 0
-                              break
-                        i = i+1
+                              if b == pos+(7*i): #inferior esquerda
+                                    dire = 1
+                              elif b == pos+(-(7*i)): #superior direita
+                                    dire = 2
+                              elif b == pos+(-(9*i)): #superior esquerda
+                                    dire = 3
+                              elif b == pos+(9*i): #inferior direita
+                                    dire = 4
+                              j = i 
+                              while j>0:
+                                    i = 8
+                                    print (j, flg, ch[((pos+(-(9*j)))*3)-3:((pos+(-(9*j)))*3)], ch[((pos+(-(7*j)))*3)-3:((pos+(-(7*j)))*3)])
+
+                                    if dire == 1: #diagonal inferior esquerda
+                                          if ch[((pos+(+(7*j)))*3)-3:(((pos+(7*j)))*3)] != '   ':
+                                                print('A peça %s está no caminho.'%(ch[((pos+(+(7*j)))*3)-3:(((pos+(7*j)))*3)]))
+                                                flg = 1
+                                                break
+
+                                    elif dire == 4: #diagonal inferior direita.
+                                          if ch[((pos+(9*j))*3)-3:((pos+(9*j))*3)] != '   ':
+                                                print('A peça %s está no caminho.'%(ch[((pos+(9*j))*3)-3:((pos+(9*j))*3)]))
+                                                flg = 1
+                                                break
+
+                                    elif dire == 3: #diagonal superior esquerda.
+                                          if ch[((pos+(-(9*j)))*3)-3:((pos+(-(9*j)))*3)] != '   ':
+                                                print('A peça %s está no caminho.'%(ch[((pos+(-(9*j)))*3)-3:((pos+(-(9*j)))*3)]))
+                                                flg = 1
+                                                break 
+
+                                    elif dire == 2: #diagonal superior direita
+                                          if ch[((pos+(-(7*j)))*3)-3:((pos+(-(7*j)))*3)] != '   ':
+                                                print('A peça %s está no caminho.'%(ch[((pos+(-(7*j)))*3)-3:((pos+(-(7*j)))*3)]))
+                                                flg = 1
+                                                break
+                                    j = j-1
+                                    flg = 0
             
             elif pc == 't': #torre
                   if (8%pos)!=0:
@@ -162,7 +200,7 @@ while (s==0):
       if wflg == 1:
             print('O time %s venceu.'%(jgdcor(abs(c))))
             break
-      print (wflg)
+
       a1=ch[0:3] 
       a2=ch[3:6]
       a3=ch[6:9]
@@ -239,13 +277,14 @@ while (s==0):
             f1,f2,f3,f4,f5,f6,f7,f8,
             g1,g2,g3,g4,g5,g6,g7,g8,
             h1,h2,h3,h4,h5,h6,h7,h8)
-      op = int(input('\nO que você deseja fazer?\n1 - Mover\n2 - Passar\n3 - Desistir\n4 - Sair\n=> '))
+      op = input('\nO que você deseja fazer?\n1 - Mover\n2 - Passar\n3 - Desistir\n4 - Sair\n=> ')
       s= 1
-      if (op==1):
+      if (op=='1'):
             pc = input('Digite o nome da peça que você deseja movimentar: ')
             posp = checkp(pc, cor, ch)
             if (posp<0 or posp==False):
                   flg = 1
+                  print('teste 2')
                   print('\nCredênciais incorretas.')
             else:
                   pos = input('Digite onde você deseja posicionar essa peça (colunalinha): ')
@@ -258,15 +297,15 @@ while (s==0):
                   else:
                         print ('Posição incorreta.')
                         c = abs(c-1)
-      if (op==2):
+      if (op=='2'):
             s=0
-      elif (op==3):
+      elif (op=='3'):
             print('O time %s venceu.'%(jgdcor(abs(c-1))))
             break
-      elif (op==4):
+      elif (op=='4'):
             print('\nFechando o programa.')
             break
-      if (op>4) or (op<1):
+      elif (op!='1' and op!='2' and op!='3' and op!='4'):
             flg = 1
             print('\nCredênciais incorretas.')
       if (flg<1):

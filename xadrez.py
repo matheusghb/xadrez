@@ -69,22 +69,25 @@ def movp (a, b, pos):
             if pc == 'p': #peão
                   if a[2] == 'b':
                         if b != (pos-8):
-                              flg = 1
+                              if (b==(pos-7) and ch[((pos-7)*3)-3:((pos-7)*3)]!='   ') or (b==(pos-9) and ch[((pos-9)*3)-3:((pos-9)*3)]!='   '):
+                                    pass
+                              else:
+                                    flg = 1
 
                   else:
                         if b != (pos+8):
-                              flg = 1
+                              if (b==(pos-7) and ch[((pos-7)*3)-3:((pos-7)*3)]!='   ') or (b==(pos-9) and ch[((pos-9)*3)-3:((pos-9)*3)]!='   '):
+                                    pass
+                              else:
+                                    flg = 1
 
             
             elif pc == 'b': #bispo
                   i = 1
                   while i<8:
-                        i = i+1
-                        if b != (pos+(7*i)) and b != (pos+(9*i)) and b != (pos+(-(9*i))) and b != (pos+(-(7*i))):
-                              flg = 1
-                              
-                        else:
+                        if b == (pos+(7*i)) or b == (pos+(9*i)) or b == (pos+(-(9*i))) or b == (pos+(-(7*i))):
                               flg = 0
+
                               if b == pos+(7*i): #inferior esquerda
                                     dire = 1
                               elif b == pos+(-(7*i)): #superior direita
@@ -93,11 +96,9 @@ def movp (a, b, pos):
                                     dire = 3
                               elif b == pos+(9*i): #inferior direita
                                     dire = 4
-                              j = i 
+                              j = i-1
+                              i = i+8
                               while j>0:
-                                    i = 8
-                                    print (j, flg, ch[((pos+(-(9*j)))*3)-3:((pos+(-(9*j)))*3)], ch[((pos+(-(7*j)))*3)-3:((pos+(-(7*j)))*3)])
-
                                     if dire == 1: #diagonal inferior esquerda
                                           if ch[((pos+(+(7*j)))*3)-3:(((pos+(7*j)))*3)] != '   ':
                                                 print('A peça %s está no caminho.'%(ch[((pos+(+(7*j)))*3)-3:(((pos+(7*j)))*3)]))
@@ -122,8 +123,10 @@ def movp (a, b, pos):
                                                 flg = 1
                                                 break
                                     j = j-1
-                                    flg = 0
-            
+                        else:
+                              flg = 1
+                        i = i+1
+
             elif pc == 't': #torre
                   if (8%pos)!=0:
                         l = ((pos//8)+1)

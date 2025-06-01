@@ -45,6 +45,9 @@ def mtab(aa, ab, ac, ad, ae, af, ag, ah,
                                                            ha, hb, hc, hd, he, hf, hg, hh))
 
 def checkp(a, b, chk):
+      if len(a)<3:
+            while len(a)<3:
+                  a = a+' '
       c = a[2]
 
       if (b == 'preto' and c == 'b') or (b == 'branco' and c == 'p'):
@@ -379,15 +382,20 @@ while (s==0):
                   print('\nCredênciais incorretas.')
             else:
                   pos = input('Digite onde você deseja posicionar essa peça (colunalinha): ')
-                  pos = (int(pos[0])+((int(pos[1])-1)*8))
-                  chk = movp(pc, pos, posp)
-                  if chk == True:
-                        ch = chgpc(posp, pos, ch, wflg)
-                        if ch.find('r1b')==-1 or ch.find('r1p')==-1:
-                              wflg = 1
-                  else:
-                        print ('Posição incorreta.')
+                  try:
+                        pos = (int(pos[0])+((int(pos[1])-1)*8))
+                  except:
+                        print ('Credênciais incorretas.')
                         c = abs(c-1)
+                  else:
+                        chk = movp(pc, pos, posp)
+                        if chk == True:
+                              ch = chgpc(posp, pos, ch, wflg)
+                              if ch.find('r1b')==-1 or ch.find('r1p')==-1:
+                                    wflg = 1
+                        else:
+                              print ('Posição incorreta.')
+                              c = abs(c-1)
       if (op=='2'):
             s=0
       elif (op=='3'):

@@ -73,12 +73,20 @@ def movp (a, b, pos):
                                     pass
                               else:
                                     flg = 1
+                        else:
+                              if (ch[((pos-8)*3)-3:((pos-8)*3)]!='   '):
+                                    print('A peça %s está no caminho.'%(ch[((pos-8)*3)-3:((pos-8)*3)]))
+                                    flg = 1
 
                   else:
                         if b != (pos+8):
-                              if (b==(pos-7) and ch[((pos-7)*3)-3:((pos-7)*3)]!='   ') or (b==(pos-9) and ch[((pos-9)*3)-3:((pos-9)*3)]!='   '):
+                              if (b==(pos+7) and ch[((pos+7)*3)-3:((pos+7)*3)]!='   ') or (b==(pos+9) and ch[((pos+9)*3)-3:((pos+9)*3)]!='   '):
                                     pass
                               else:
+                                    flg = 1
+                        else:
+                              if (ch[((pos+8)*3)-3:((pos+8)*3)]!='   '):
+                                    print('A peça %s está no caminho.'%(ch[((pos+8)*3)-3:((pos+8)*3)]))
                                     flg = 1
 
             
@@ -128,21 +136,31 @@ def movp (a, b, pos):
                         i = i+1
 
             elif pc == 't': #torre
-                  if (8%pos)!=0:
-                        l = ((pos//8)+1)
+                  direcao = None
+                  passo = 0
+
+                  if b % 8 == pos % 8:  # mesma coluna (vertical)
+                        if b > pos:
+                              passo = 8
+                        else:
+                              passo = -8
+                  elif (b - 1) // 8 == (pos - 1) // 8:  # mesma linha (horizontal)
+                        if b > pos:
+                              passo = 1
+                        else:
+                              passo = -1
                   else:
-                        l = (pos//8)
-                  if (b<(l*8)-7) or (b>(l*8)):
-                        i = 0-l
-                        while i<9:
-                              if (b!=(pos+(8*i))):
+                        flg = 1  # movimento inválido
+                        passo = 0
+
+                  if passo != 0:
+                        i = pos + passo
+                        while i != b:
+                              if ch[(i * 3) - 3:(i * 3)] != '   ':
+                                    print('A peça %s está no caminho.' % ch[(i * 3) - 3:(i * 3)])
                                     flg = 1
-                              else:
-                                    flg = 0
                                     break
-                              i = i+1
-                  else:
-                        flg = 0
+                              i += passo
 
             elif pc == 'c': #cavalo
                   if b !=pos-17 and b!=pos-15 and b!=pos-6 and b!=pos+10 and b!=pos+17 and b!=pos+15 and b!=pos+6 and b!=pos-10:
@@ -154,28 +172,99 @@ def movp (a, b, pos):
             
             else: #rainha
                   i = 1
-                  while i<9:
-                        if b != (pos+(7*i)) and b != (pos+(9*i)) and b != (pos+(-(9*i))) and b != (pos+(-(7*i))):
-                              flg = 1
-                        else:
+                  while i<8:
+                        if b == (pos+(7*i)) or b == (pos+(9*i)) or b == (pos+(-(9*i))) or b == (pos+(-(7*i))):
                               flg = 0
-                              break
-                        i = i+1
-                  if (8%pos)!=0:
-                        l = ((pos//8)+1)
-                  else:
-                        l = (pos//8)
-                  if (b<(l*8)-7) or (b>(l*8)):
-                        i = 0-l
-                        while i<9:
-                              if (b!=(pos+(8*i))):
-                                    flg = 1
+
+                              if b == pos+(7*i): #inferior esquerda
+                                    dire = 1
+                              elif b == pos+(-(7*i)): #superior direita
+                                    dire = 2
+                              elif b == pos+(-(9*i)): #superior esquerda
+                                    dire = 3
+                              elif b == pos+(9*i): #inferior direita
+                                    dire = 4
+                              j = i-1
+                              i = i+8
+                              while j>0:
+                                    if dire == 1: #diagonal inferior esquerda
+                                          if ch[((pos+(+(7*j)))*3)-3:(((pos+(7*j)))*3)] != '   ':
+                                                print('A peça %s está no caminho.'%(ch[((pos+(+(7*j)))*3)-3:(((pos+(7*j)))*3)]))
+                                                flg = 1
+                                                break
+
+                                    elif dire == 4: #diagonal inferior direita.
+                                          if ch[((pos+(9*j))*3)-3:((pos+(9*j))*3)] != '   ':
+                                                print('A peça %s está no caminho.'%(ch[((pos+(9*j))*3)-3:((pos+(9*j))*3)]))
+                                                flg = 1
+                                                break
+
+                                    elif dire == 3: #diagonal superior esquerda.
+                                          if ch[((pos+(-(9*j)))*3)-3:((pos+(-(9*j)))*3)] != '   ':
+                                                print('A peça %s está no caminho.'%(ch[((pos+(-(9*j)))*3)-3:((pos+(-(9*j)))*3)]))
+                                                flg = 1
+                                                break 
+
+                                    elif dire == 2: #diagonal superior direita
+                                          if ch[((pos+(-(7*j)))*3)-3:((pos+(-(7*j)))*3)] != '   ':
+                                                print('A peça %s está no caminho.'%(ch[((pos+(-(7*j)))*3)-3:((pos+(-(7*j)))*3)]))
+                                                flg = 1
+                                                break
+                                    j = j-1
+                        else:
+                              direcao = None
+                              passo = 0
+
+                              if b % 8 == pos % 8:  # mesma coluna (vertical)
+                                    if b > pos:
+                                          passo = 8
+                                    else:
+                                          passo = -8
+                              elif (b - 1) // 8 == (pos - 1) // 8:  # mesma linha (horizontal)
+                                    if b > pos:
+                                          passo = 1
+                                    else:
+                                          passo = -1
                               else:
-                                    flg = 0
-                                    break
-                              i = i+1
-                  else:
-                        flg = 0
+                                    flg = 1  # movimento inválido
+                                    passo = 0
+
+                              if passo != 0:
+                                    y = pos + passo
+                                    while y != b:
+                                          if ch[(y * 3) - 3:(y * 3)] != '   ':
+                                                print('A peça %s está no caminho.' % ch[(y * 3) - 3:(y * 3)])
+                                                flg = 1
+                                                break
+                                          y += passo
+                        i = i+1
+
+                        if flg == 1:
+                              direcao = None
+                              passo = 0
+
+                              if b % 8 == pos % 8:  # mesma coluna (vertical)
+                                    if b > pos:
+                                          passo = 8
+                                    else:
+                                          passo = -8
+                              elif (b - 1) // 8 == (pos - 1) // 8:  # mesma linha (horizontal)
+                                    if b > pos:
+                                          passo = 1
+                                    else:
+                                          passo = -1
+                              else:
+                                    flg = 1  # movimento inválido
+                                    passo = 0
+
+                              if passo != 0:
+                                    i = pos + passo
+                                    while i != b:
+                                          if ch[(i * 3) - 3:(i * 3)] != '   ':
+                                                print('A peça %s está no caminho.' % ch[(i * 3) - 3:(i * 3)])
+                                                flg = 1
+                                                break
+                                          i += passo
 
             if flg == 0:
                   return True
@@ -197,7 +286,6 @@ print('Isso é uma simulação de xadrez feita dentro do console do Visual Studi
 s=0
 c=1
 cor = ''
-
 wflg = 0
 while (s==0):
       if wflg == 1:

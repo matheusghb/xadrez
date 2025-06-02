@@ -307,7 +307,6 @@ while (s==0):
                         t = ch[(pos*3)-3:(pos*3)]
                         pp = ch[(posp*3)-3:(posp*3)]
                         if chk == True:
-                              
                               en = ch[((ch.find(' . '))):(ch.find(' . '))+3]
                               ch = ch.replace(' . ','   ')
                               if (ch[(posp*3)-3:(posp*3)-2]=='p'):
@@ -340,8 +339,10 @@ while (s==0):
                                     ch = ch[:(posp*3)-3]+opc+str(i)+pp[2]+ch[(posp*3):]
                               if t=='   ' or t==' . ':
                                     if en==' . ' and t==' . ' and pp[0]=='p':
-                                          print('eu odeio luiz')
-                                          print((((pos+(-(p*2)))*3))-3, ((pos+(-(p*2)))*3))
+                                          if ch[(((pos+(-(p)))*3))-1:((pos+(-(p)))*3)]=='b':
+                                                cemp = cemp+ch[(((pos+(-(p)))*3))-3:((pos+(-(p)))*3)]+', '
+                                          else:
+                                                cemb = cemb+ch[(((pos+(-(p)))*3))-3:((pos+(-(p)))*3)]+', '
                                           ch = ch[:(((pos+(-(p)))*3))-3]+'   '+ch[((pos+(-(p)))*3):]
 
                                     ch = ch[:(pos*3)-3]+pp+ch[(pos*3):]

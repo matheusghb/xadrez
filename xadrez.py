@@ -255,7 +255,7 @@ ch = 't1pc1pb1pR1pr1pb2pc2pt2pp1pp2pp3pp4pp5pp6pp7pp8p                          
 
 
 print('Isso é uma simulação de xadrez feita dentro do console do Visual Studio Code.\n'
-      'Grupo: Kaio Mariano, Pedro Igor, Matheus Guilherme e Yuri.\n' \
+      'Grupo: Kaio Mariano, Pedro Igor, Matheus Guilherme, Yuri e Roberto Eugênio.\n' \
       '\n' \
       'Diga primeiro a coordenada da PEÇA que planeja mover,\ncom base no nome, seguindo esse padrão:\n\n' \
       'PeçaOrdemCor\n\n'
